@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.2.11",
+    "@radix-ui/react-tooltip": "^1.2.7",
     "@types/xml2js": "^0.4.14",
     "axios": "^1.9.0",
     "class-variance-authority": "^0.7.1",

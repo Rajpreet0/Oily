@@ -6,19 +6,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import TankstellenDetailInformation from "./TankstellenDetailInformation";
 import { Circle, Droplet, Flag, Fuel, MapPinIcon, Signpost, Text } from "lucide-react";
-
-
-interface TankstelleData {
-    name: string;
-    brand: string;
-    place: string; 
-    postCode: string;
-    isOpen: boolean;    
-    diesel: string;
-    e5: string;
-    e10: string;
-    [key: string]: any; 
-}
+import { TankstelleData } from "../../../types/data";
 
 
 const TankstellenCard = () => {

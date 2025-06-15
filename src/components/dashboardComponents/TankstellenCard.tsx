@@ -7,15 +7,17 @@ import axios from "axios"
 import TankstellenDetailInformation from "./TankstellenDetailInformation";
 import { Circle, Droplet, Flag, Fuel, MapPinIcon, Signpost, Text } from "lucide-react";
 import { TankstelleData } from "../../../types/data";
+import CardSkeleton from "../CardSkeleton";
 
 
 const TankstellenCard = () => {
 
     const [data, setData] = useState<TankstelleData | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
     useEffect(() => {
+        setLoading(true);
         axios.get("/api/tankstelle")
         .then((res) => {
             setData(res.data.station);
@@ -23,14 +25,14 @@ const TankstellenCard = () => {
         })
         .catch((err) => {
             setError("Fehler beim Laden der Tankstelle.")
-            setLoading(false);
             console.log(err);
         })
+        .finally(() => setLoading(false));
     }, []);
 
   return (
-    <div className="p-2 w-full flex flex-col items-center justify-center mt-6">
-        <Card className="min-w-lg bg-grey text-white">
+    <div className="p-2 flex flex-col items-center justify-center mt-6">
+        <Card className="w-full max-w-xl bg-grey text-white">
             <CardHeader>
                 <CardTitle className="text-lg">Tankstellen Details</CardTitle>
                 <CardDescription className="text-white">Here you can find the Data of the Gas Station</CardDescription>
@@ -41,7 +43,9 @@ const TankstellenCard = () => {
                 </CardAction>
             </CardHeader>
             <CardContent>
-                {!loading && data && (
+                {loading ? (
+                    <CardSkeleton/>
+                ) : data ? (
                     <div>
                         <TankstellenDetailInformation icon={Text} label="Name " value={data.name}/>
                         <TankstellenDetailInformation icon={Flag} label="Brand " value={data.brand}/>
@@ -67,6 +71,8 @@ const TankstellenCard = () => {
                         <TankstellenDetailInformation icon={Fuel} label="E5 " value={`${data.e5} €`} isYellow/>
                         <TankstellenDetailInformation icon={Fuel} label="E10 " value={`${data.e10} €`} isYellow/>
                     </div>
+                ) : (
+                    <p className="text-red-400">{error}</p>
                 )}
             </CardContent>
         </Card>

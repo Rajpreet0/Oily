@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
+import { LoadingProvider } from "@/context/LoadingContext";
+import LoadingOverlay from "@/components/LoadingOverlay";
 
 const dm_sans = DM_Sans({
   subsets: ["latin"],
@@ -22,7 +24,10 @@ export default function RootLayout({
       <body
         className={`${dm_sans.className} antialiased`}
       >
-        {children}
+        <LoadingProvider>
+          <LoadingOverlay/>
+          {children}
+        </LoadingProvider>
       </body>
     </html>
   );
